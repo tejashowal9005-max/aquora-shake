@@ -1,7 +1,7 @@
 /* ============================================
    AQUORA SHAKE · script.js
-   Premium interactions · Three.js viewer
-   GSAP animations · Smooth scroll
+   Premium interactions · GSAP animations
+   Smooth scroll · Floating particles
    ============================================ */
 
 // --------------------------------------------
@@ -59,9 +59,11 @@
   });
 
   const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
+  if (nav) {
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 50);
+    });
+  }
 })();
 
 // --------------------------------------------
@@ -87,247 +89,25 @@
 })();
 
 // --------------------------------------------
-// 4. THREE.JS 3D PRODUCT VIEWER
-// --------------------------------------------
-(function initThreeViewer() {
-  const canvas = document.getElementById('three-canvas');
-  if (!canvas) return;
-
-  // --- Setup ---
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x081321);
-
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight || 400;
-
-  const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
-  camera.position.set(2.5, 1.2, 4.5);
-  camera.lookAt(0, 0.2, 0);
-
-  const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true,
-  });
-  renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping || THREE.LinearToneMapping;
-  renderer.toneMappingExposure = 1.2;
-  canvas.appendChild(renderer.domElement);
-
-  // --- Controls ---
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.05;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 1.8;
-  controls.enableZoom = true;
-  controls.zoomSpeed = 0.8;
-  controls.enablePan = false;
-  controls.target.set(0, 0.3, 0);
-  controls.maxPolarAngle = Math.PI / 2.2;
-  controls.minDistance = 2;
-  controls.maxDistance = 8;
-
-  // --- Lighting ---
-  const ambient = new THREE.AmbientLight(0x334466, 0.6);
-  scene.add(ambient);
-
-  const keyLight = new THREE.DirectionalLight(0xffeedd, 1.2);
-  keyLight.position.set(3, 4, 5);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.width = 1024;
-  keyLight.shadow.mapSize.height = 1024;
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0x6688ff, 0.5);
-  fillLight.position.set(-3, 1, -4);
-  scene.add(fillLight);
-
-  const rimLight = new THREE.DirectionalLight(0xd4af37, 0.4);
-  rimLight.position.set(-2, 3, -3);
-  scene.add(rimLight);
-
-  const goldLight = new THREE.PointLight(0xd4af37, 0.8, 6);
-  goldLight.position.set(0, 1.5, 2.5);
-  scene.add(goldLight);
-
-  // --- Floor ---
-  const floor = new THREE.Mesh(
-    new THREE.CircleGeometry(2.8, 32),
-    new THREE.MeshStandardMaterial({
-      color: 0x0b1638,
-      transparent: true,
-      opacity: 0.3,
-      side: THREE.DoubleSide,
-      roughness: 0.9,
-      metalness: 0.1,
-    })
-  );
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -1.0;
-  floor.receiveShadow = true;
-  scene.add(floor);
-
-  // --- Product ---
-  const productGroup = new THREE.Group();
-
-  const bodyGeo = new THREE.CylinderGeometry(0.85, 0.9, 1.8, 48, 1, true);
-  const bodyMat = new THREE.MeshPhysicalMaterial({
-    color: 0x1a2a44,
-    roughness: 0.2,
-    metalness: 0.6,
-    clearcoat: 0.3,
-    clearcoatRoughness: 0.2,
-    emissive: new THREE.Color(0x0a1530),
-    emissiveIntensity: 0.1,
-    envMapIntensity: 1.0,
-  });
-  const body = new THREE.Mesh(bodyGeo, bodyMat);
-  body.castShadow = true;
-  body.receiveShadow = true;
-  productGroup.add(body);
-
-  const capMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd4af37,
-    roughness: 0.15,
-    metalness: 0.85,
-    emissive: new THREE.Color(0x553311),
-    emissiveIntensity: 0.05,
-    envMapIntensity: 1.2,
-  });
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.68, 0.3, 32), capMat);
-  cap.position.y = 1.05;
-  cap.castShadow = true;
-  productGroup.add(cap);
-
-  const ringMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd4af37,
-    roughness: 0.2,
-    metalness: 0.8,
-  });
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.62, 0.04, 16, 32), ringMat);
-  ring.position.y = 0.92;
-  ring.rotation.x = Math.PI / 2;
-  productGroup.add(ring);
-
-  const labelMat = new THREE.MeshPhysicalMaterial({
-    color: 0xc49b3f,
-    roughness: 0.3,
-    metalness: 0.4,
-    emissive: new THREE.Color(0x442200),
-    emissiveIntensity: 0.05,
-    transparent: true,
-    opacity: 0.9,
-  });
-  const label = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.78, 0.45, 32), labelMat);
-  label.position.y = 0.15;
-  productGroup.add(label);
-
-  const stripeMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd4af37,
-    roughness: 0.1,
-    metalness: 0.9,
-    emissive: new THREE.Color(0xd4af37),
-    emissiveIntensity: 0.08,
-  });
-  const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.04, 48), stripeMat);
-  stripe.position.y = -0.3;
-  productGroup.add(stripe);
-  const stripe2 = stripe.clone();
-  stripe2.position.y = 0.5;
-  productGroup.add(stripe2);
-
-  scene.add(productGroup);
-
-  // --- 3D Particles ---
-  const bgParticlesGeo = new THREE.BufferGeometry();
-  const count = 400;
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count * 3; i += 3) {
-    const r = 3 + Math.random() * 5;
-    const theta = Math.random() * Math.PI * 2;
-    const phi = Math.random() * Math.PI * 2;
-    positions[i] = Math.sin(theta) * Math.cos(phi) * r;
-    positions[i + 1] = Math.sin(theta) * Math.sin(phi) * r * 0.5 + 0.5;
-    positions[i + 2] = Math.cos(theta) * r;
-  }
-  bgParticlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const bgParticlesMat = new THREE.PointsMaterial({
-    color: 0xd4af37,
-    size: 0.025,
-    transparent: true,
-    opacity: 0.3,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
-  });
-  const bgParticles = new THREE.Points(bgParticlesGeo, bgParticlesMat);
-  scene.add(bgParticles);
-
-  const floatParticlesGeo = new THREE.BufferGeometry();
-  const fCount = 60;
-  const fPos = new Float32Array(fCount * 3);
-  for (let i = 0; i < fCount * 3; i += 3) {
-    const radius = 1.5 + Math.random() * 3;
-    const angle = Math.random() * Math.PI * 2;
-    fPos[i] = Math.cos(angle) * radius;
-    fPos[i + 1] = (Math.random() - 0.5) * 3 + 0.5;
-    fPos[i + 2] = Math.sin(angle) * radius;
-  }
-  floatParticlesGeo.setAttribute('position', new THREE.BufferAttribute(fPos, 3));
-  const floatParticlesMat = new THREE.PointsMaterial({
-    color: 0xd4af37,
-    size: 0.035,
-    transparent: true,
-    opacity: 0.4,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
-  });
-  const floatParticles = new THREE.Points(floatParticlesGeo, floatParticlesMat);
-  scene.add(floatParticles);
-
-  // --- Animation ---
-  function animate() {
-    requestAnimationFrame(animate);
-    const time = Date.now() * 0.001;
-    controls.update();
-    productGroup.position.y = Math.sin(time * 0.6) * 0.04;
-    productGroup.rotation.z = Math.sin(time * 0.3) * 0.005;
-    bgParticles.rotation.y += 0.0003;
-    floatParticles.rotation.y += 0.0008;
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  // --- Resize ---
-  function resizeRenderer() {
-    const w = canvas.clientWidth;
-    const h = canvas.clientHeight || 400;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener('resize', resizeRenderer);
-
-  // --- Mouse parallax ---
-  document.addEventListener('mousemove', (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 2;
-    const y = (e.clientY / window.innerHeight - 0.5) * 2;
-    productGroup.rotation.y += (x * 0.005 - productGroup.rotation.y) * 0.02;
-    productGroup.rotation.x += (-y * 0.003 - productGroup.rotation.x) * 0.02;
-  });
-
-  window.__threeControls = controls;
-  window.__threeScene = scene;
-  window.__threeProduct = productGroup;
-})();
-
-// --------------------------------------------
-// 5. GSAP ANIMATIONS
+// 4. GSAP ANIMATIONS
 // --------------------------------------------
 function initAnimations() {
-  if (typeof gsap === 'undefined') return;
+  // Fallback: simple CSS transitions for reveal if GSAP isn't available
+  if (typeof gsap === 'undefined') {
+    const revealEls = document.querySelectorAll(
+      '.flavour-card, .gallery-item, .story-text, .story-image, .contact-form-wrap, .footer-col, .section-title, .section-sub'
+    );
+    revealEls.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = `opacity 0.8s ease ${i * 0.06}s, transform 0.8s ease ${i * 0.06}s`;
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 100 + i * 60);
+    });
+    return;
+  }
 
   let hasScrollTrigger = false;
   if (typeof ScrollTrigger !== 'undefined') {
@@ -335,6 +115,7 @@ function initAnimations() {
     hasScrollTrigger = true;
   }
 
+  // Section titles & subtitles
   const titles = document.querySelectorAll('.section-title, .section-sub');
   titles.forEach((el, i) => {
     gsap.from(el, {
@@ -347,6 +128,7 @@ function initAnimations() {
     });
   });
 
+  // Flavour cards
   const flavourCards = document.querySelectorAll('.flavour-card');
   flavourCards.forEach((card, i) => {
     gsap.from(card, {
@@ -360,6 +142,7 @@ function initAnimations() {
     });
   });
 
+  // Gallery items
   const galleryItems = document.querySelectorAll('.gallery-item');
   galleryItems.forEach((item, i) => {
     gsap.from(item, {
@@ -372,12 +155,30 @@ function initAnimations() {
     });
   });
 
+  // Hero elements
   gsap.from('.hero-badge', { duration: 1.0, opacity: 0, y: 20, delay: 0.2 });
   gsap.from('.hero-title', { duration: 1.2, opacity: 0, y: 40, delay: 0.3 });
   gsap.from('.hero-sub', { duration: 1.0, opacity: 0, y: 30, delay: 0.5 });
   gsap.from('.hero-cta', { duration: 0.9, opacity: 0, y: 20, delay: 0.7 });
-  gsap.from('#three-canvas', { duration: 1.4, opacity: 0, scale: 0.9, delay: 0.4 });
+  gsap.from('.hero-image-card', { duration: 1.4, opacity: 0, scale: 0.9, delay: 0.4 });
 
+  // Story section
+  gsap.from('.story-image', {
+    duration: 1.0,
+    opacity: 0,
+    x: -40,
+    ease: 'power2.out',
+    scrollTrigger: hasScrollTrigger ? { trigger: '.story-image', start: 'top 80%' } : null,
+  });
+  gsap.from('.story-text', {
+    duration: 1.0,
+    opacity: 0,
+    x: 40,
+    ease: 'power2.out',
+    scrollTrigger: hasScrollTrigger ? { trigger: '.story-text', start: 'top 80%' } : null,
+  });
+
+  // Contact form
   gsap.from('.contact-form-wrap', {
     duration: 1.0,
     opacity: 0,
@@ -386,6 +187,7 @@ function initAnimations() {
     scrollTrigger: hasScrollTrigger ? { trigger: '.contact-form-wrap', start: 'top 85%' } : null,
   });
 
+  // Footer columns
   const footerCols = document.querySelectorAll('.footer-col');
   footerCols.forEach((col, i) => {
     gsap.from(col, {
@@ -397,16 +199,10 @@ function initAnimations() {
       scrollTrigger: hasScrollTrigger ? { trigger: col, start: 'top 90%' } : null,
     });
   });
-
-  gsap.to('#hero', {
-    backgroundPosition: '50% 30%',
-    ease: 'none',
-    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 },
-  });
 }
 
 // --------------------------------------------
-// 6. FLOATING 2D PARTICLES
+// 5. FLOATING 2D PARTICLES
 // --------------------------------------------
 function initParticles() {
   const container = document.body;
@@ -439,32 +235,26 @@ function initParticles() {
 }
 
 // --------------------------------------------
-// 7. FLAVOUR BUTTONS
+// 6. FLAVOUR SWITCHING (UI feedback)
 // --------------------------------------------
-(function initFlavourButtons() {
-  const buttons = document.querySelectorAll('.flavour-card .btn-primary');
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      const card = this.closest('.flavour-card');
-      const name = card?.querySelector('h3')?.textContent || 'Flavour';
-      const hero = document.getElementById('hero');
-      if (hero) {
-        hero.scrollIntoView({ behavior: 'smooth' });
-        const canvas = document.getElementById('three-canvas');
-        if (canvas) {
-          canvas.style.transition = 'box-shadow 0.6s ease';
-          canvas.style.boxShadow = '0 0 60px rgba(212, 175, 55, 0.3)';
-          setTimeout(() => { canvas.style.boxShadow = ''; }, 800);
-        }
-      }
-      showNotification(`Viewing: ${name} in 3D`);
-    });
+window.switchFlavour = function (flavourName) {
+  const cards = document.querySelectorAll('.flavour-card');
+  cards.forEach((card) => {
+    const title = card.querySelector('h3')?.textContent;
+    if (title === flavourName) {
+      card.style.borderColor = 'var(--color-accent)';
+      card.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.3)';
+      setTimeout(() => {
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+      }, 800);
+    }
   });
-})();
+  showNotification(`Discovering: ${flavourName}`);
+};
 
 // --------------------------------------------
-// 8. NOTIFICATION TOAST
+// 7. NOTIFICATION TOAST
 // --------------------------------------------
 function showNotification(message) {
   const existing = document.querySelector('.luxury-toast');
@@ -509,7 +299,7 @@ function showNotification(message) {
 }
 
 // --------------------------------------------
-// 9. INTERSECTION OBSERVER (fallback)
+// 8. INTERSECTION OBSERVER (fallback)
 // --------------------------------------------
 (function initIntersectionObserver() {
   if (typeof ScrollTrigger !== 'undefined') return;
@@ -526,10 +316,12 @@ function showNotification(message) {
     { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
   );
 
-  document.querySelectorAll('.flavour-card, .gallery-item, .section-title, .contact-form-wrap').forEach((el) => {
-    el.classList.add('observe-me');
-    observer.observe(el);
-  });
+  document
+    .querySelectorAll('.flavour-card, .gallery-item, .section-title, .contact-form-wrap, .story-text, .story-image')
+    .forEach((el) => {
+      el.classList.add('observe-me');
+      observer.observe(el);
+    });
 
   const style = document.createElement('style');
   style.textContent = `
@@ -547,7 +339,7 @@ function showNotification(message) {
 })();
 
 // --------------------------------------------
-// 10. KEYBOARD ACCESSIBILITY
+// 9. KEYBOARD ACCESSIBILITY
 // --------------------------------------------
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -562,23 +354,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 // --------------------------------------------
-// 11. FLAVOUR SWITCHING (global)
-// --------------------------------------------
-window.switchFlavour = function (flavourName) {
-  const canvas = document.getElementById('three-canvas');
-  if (canvas) {
-    canvas.style.transition = 'all 0.6s ease';
-    canvas.style.boxShadow = '0 0 80px rgba(212, 175, 55, 0.4)';
-    setTimeout(() => { canvas.style.boxShadow = ''; }, 800);
-  }
-  showNotification(`Switched to: ${flavourName}`);
-};
-
-// --------------------------------------------
-// 12. EXPOSE API
+// 10. EXPOSE API
 // --------------------------------------------
 window.__aquora = {
-  version: '1.0.0',
+  version: '2.0.0',
   showNotification,
   switchFlavour: window.switchFlavour,
 };
