@@ -2,7 +2,7 @@
    AQUORA SHAKE · script.js
    Premium interactions · GSAP animations
    Smooth scroll · Floating particles
-   Formspree email form
+   Gallery lightbox · Formspree email form
    ============================================ */
 
 // --------------------------------------------
@@ -163,6 +163,12 @@ function initAnimations() {
   gsap.from('.hero-cta', { duration: 0.9, opacity: 0, y: 20, delay: 0.7 });
   gsap.from('.hero-image-card', { duration: 1.4, opacity: 0, scale: 0.9, delay: 0.4 });
 
+  // Rotating logo
+  gsap.from('.hero-rotating-logo', { duration: 1.8, opacity: 0, scale: 0.7, delay: 0.3 });
+
+  // Marquee strip
+  gsap.from('.marquee-strip', { duration: 1.0, opacity: 0, y: 20, delay: 0.8 });
+
   // Story section
   gsap.from('.story-image', {
     duration: 1.0,
@@ -244,11 +250,11 @@ window.switchFlavour = function (flavourName) {
     const title = card.querySelector('h3')?.textContent;
     if (title === flavourName) {
       card.style.borderColor = 'var(--color-accent)';
-      card.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.3)';
+      card.style.boxShadow = '0 0 50px rgba(212, 175, 55, 0.4)';
       setTimeout(() => {
         card.style.borderColor = '';
         card.style.boxShadow = '';
-      }, 800);
+      }, 900);
     }
   });
   showNotification(`Discovering: ${flavourName}`);
@@ -268,22 +274,21 @@ function showNotification(message) {
     position: fixed;
     bottom: 2rem;
     left: 50%;
-    transform: translateX(-50%);
-    background: rgba(8, 19, 33, 0.85);
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(8, 19, 33, 0.9);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     padding: 0.8rem 2rem;
     border-radius: 60px;
     color: #fff;
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     letter-spacing: 0.05em;
-    z-index: 9999;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    z-index: 99999;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 40px rgba(212, 175, 55, 0.2);
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
-    transform: translateX(-50%) translateY(20px);
   `;
   document.body.appendChild(toast);
 
@@ -296,11 +301,103 @@ function showNotification(message) {
     toast.style.opacity = '0';
     toast.style.transform = 'translateX(-50%) translateY(20px)';
     setTimeout(() => toast.remove(), 500);
-  }, 2500);
+  }, 2600);
 }
 
 // --------------------------------------------
-// 8. CONTACT FORM SUBMISSION (Formspree)
+// 8. GALLERY LIGHTBOX
+// --------------------------------------------
+(function initLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxIndex = document.getElementById('lightboxIndex');
+  const lightboxTotal = document.getElementById('lightboxTotal');
+  const closeBtn = document.getElementById('lightboxClose');
+  const prevBtn = document.getElementById('lightboxPrev');
+  const nextBtn = document.getElementById('lightboxNext');
+
+  if (!lightbox || !lightboxImage) return;
+
+  // Get all gallery items from the grid
+  const galleryItems = Array.from(
+    document.querySelectorAll('#galleryGrid .gallery-item, #gallery .gallery-item')
+  );
+
+  if (galleryItems.length === 0) return;
+
+  // Build source + alt arrays from the actual <img> in each tile
+  const imageSources = galleryItems.map((item) => {
+    const img = item.querySelector('img');
+    return img ? img.getAttribute('src') : '';
+  });
+  const imageAlts = galleryItems.map((item) => {
+    const img = item.querySelector('img');
+    return img ? (img.getAttribute('alt') || 'Gallery image') : 'Gallery image';
+  });
+
+  if (lightboxTotal) lightboxTotal.textContent = imageSources.length;
+
+  let currentIndex = 0;
+
+  function openLightbox(index) {
+    currentIndex = ((index % imageSources.length) + imageSources.length) % imageSources.length;
+    lightboxImage.src = imageSources[currentIndex];
+    lightboxImage.alt = imageAlts[currentIndex];
+    if (lightboxIndex) lightboxIndex.textContent = currentIndex + 1;
+
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function showNext() { openLightbox(currentIndex + 1); }
+  function showPrev() { openLightbox(currentIndex - 1); }
+
+  // Click on any gallery item opens it
+  galleryItems.forEach((item, i) => {
+    item.addEventListener('click', () => openLightbox(i));
+  });
+
+  // Controls
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (nextBtn) nextBtn.addEventListener('click', showNext);
+  if (prevBtn) prevBtn.addEventListener('click', showPrev);
+
+  // Click outside content to close
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft') showPrev();
+  });
+
+  // Touch swipe (mobile)
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    const delta = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(delta) > 50) {
+      delta < 0 ? showNext() : showPrev();
+    }
+  }, { passive: true });
+})();
+
+// --------------------------------------------
+// 9. CONTACT FORM SUBMISSION (Formspree)
 // --------------------------------------------
 (function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -312,7 +409,6 @@ function showNotification(message) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
 
-    // Disable button + show loading state
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
 
@@ -322,9 +418,7 @@ function showNotification(message) {
       const response = await fetch(form.action, {
         method: 'POST',
         body: formData,
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: 'application/json' },
       });
 
       if (response.ok) {
@@ -340,7 +434,6 @@ function showNotification(message) {
     } catch (error) {
       showNotification('Network error. Please check your connection.');
     } finally {
-      // Restore button
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
     }
@@ -348,7 +441,7 @@ function showNotification(message) {
 })();
 
 // --------------------------------------------
-// 9. INTERSECTION OBSERVER (fallback)
+// 10. INTERSECTION OBSERVER (fallback)
 // --------------------------------------------
 (function initIntersectionObserver() {
   if (typeof ScrollTrigger !== 'undefined') return;
@@ -388,7 +481,7 @@ function showNotification(message) {
 })();
 
 // --------------------------------------------
-// 10. KEYBOARD ACCESSIBILITY
+// 11. KEYBOARD ACCESSIBILITY
 // --------------------------------------------
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -403,10 +496,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 // --------------------------------------------
-// 11. EXPOSE API
+// 12. EXPOSE API
 // --------------------------------------------
 window.__aquora = {
-  version: '2.1.0',
+  version: '3.0.0',
   showNotification,
   switchFlavour: window.switchFlavour,
 };
