@@ -9,9 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* ============================================
-       AQUORA SHAKE · Complete styles
-       ============================================ */
     :root {
       --color-primary: #081321;
       --color-secondary: #0B1638;
@@ -19,25 +16,14 @@
       --color-accent-light: #f9e6b3;
       --color-white: #ffffff;
       --color-text-muted: rgba(255, 255, 255, 0.65);
-      --color-glass-bg: rgba(255, 255, 255, 0.03);
-      --color-glass-border: rgba(212, 175, 55, 0.15);
-      --color-shadow: rgba(0, 0, 0, 0.5);
       --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       --transition-smooth: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      --radius-glass: 28px;
       --radius-pill: 60px;
       --gold-glow: 0 0 30px rgba(212, 175, 55, 0.15);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
-    body {
-      font-family: var(--font-primary);
-      background: var(--color-primary);
-      color: var(--color-white);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
+    body { font-family: var(--font-primary); background: var(--color-primary); color: var(--color-white); overflow-x: hidden; line-height: 1.6; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
     button { cursor: pointer; font-family: inherit; border: none; outline: none; background: none; color: inherit; }
@@ -45,23 +31,18 @@
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--color-primary); }
     ::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--color-accent-light); }
 
-    /* ---------- Typography ---------- */
     .gold-text { color: var(--color-accent); }
     .section-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
     .section-sub { color: var(--color-text-muted); font-weight: 300; letter-spacing: 0.08em; font-size: 0.95rem; }
     .text-center { text-align: center; }
 
-    /* ---------- Buttons ---------- */
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center;
       background: var(--color-accent); color: var(--color-primary);
       padding: 0.8rem 2.4rem; border-radius: var(--radius-pill);
-      font-weight: 500; letter-spacing: 0.05em;
-      transition: all var(--transition-smooth);
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-      border: 1px solid transparent; font-size: 0.95rem;
+      font-weight: 500; letter-spacing: 0.05em; transition: all var(--transition-smooth);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); border: 1px solid transparent; font-size: 0.95rem;
     }
     .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); background: #e0c04a; }
     .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
@@ -70,15 +51,12 @@
       background: transparent; color: var(--color-white);
       padding: 0.8rem 2.4rem; border-radius: var(--radius-pill);
       border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-      transition: all var(--transition-smooth);
-      font-size: 0.95rem; font-weight: 400; letter-spacing: 0.05em;
+      transition: all var(--transition-smooth); font-size: 0.95rem; font-weight: 400; letter-spacing: 0.05em;
     }
     .btn-outline:hover { border-color: var(--color-accent); color: var(--color-accent); box-shadow: 0 0 30px rgba(212, 175, 55, 0.1); }
-
     .gold-border { border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
 
-    /* ---------- LOADING SCREEN ---------- */
+    /* LOADER */
     #loader {
       position: fixed; inset: 0; background: var(--color-primary); z-index: 10000;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -88,14 +66,13 @@
     .loader-logo {
       font-size: 2.8rem; font-weight: 200; letter-spacing: 0.3em;
       background: linear-gradient(135deg, var(--color-accent), var(--color-accent-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: 1.2rem;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1.2rem;
     }
     .loader-progress { width: 200px; height: 2px; background: rgba(212, 175, 55, 0.15); border-radius: 10px; overflow: hidden; }
     .loader-progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light)); transition: width 0.3s ease; }
     .loader-percent { margin-top: 0.6rem; font-size: 0.75rem; color: var(--color-accent); letter-spacing: 0.2em; }
 
-    /* ---------- NAVIGATION ---------- */
+    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; width: 100%; padding: 0.8rem 3rem;
       display: flex; align-items: center; justify-content: space-between;
@@ -140,17 +117,11 @@
     }
     .mobile-menu a:hover { color: var(--color-accent); border-bottom-color: var(--color-accent); }
 
-    /* ---------- HERO ---------- */
+    /* HERO */
     #hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding: 100px 6% 4rem;
+      min-height: 100vh; display: flex; align-items: center; padding: 100px 6% 4rem;
       background: radial-gradient(circle at 20% 30%, var(--color-secondary), var(--color-primary) 80%);
       position: relative; overflow: hidden; gap: 2rem;
-    }
-    #hero::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.03), transparent 40%, rgba(212, 175, 55, 0.02));
-      pointer-events: none;
     }
     .hero-content { flex: 1; z-index: 5; padding-right: 1rem; }
     .hero-badge {
@@ -165,15 +136,9 @@
       background: linear-gradient(135deg, var(--color-white), var(--color-accent));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .hero-sub {
-      font-size: 1.15rem; color: var(--color-text-muted); max-width: 480px;
-      margin: 1.5rem 0 2.5rem; font-weight: 300; letter-spacing: 0.02em; line-height: 1.7;
-    }
+    .hero-sub { font-size: 1.15rem; color: var(--color-text-muted); max-width: 480px; margin: 1.5rem 0 2.5rem; font-weight: 300; letter-spacing: 0.02em; line-height: 1.7; }
     .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .hero-visual {
-      flex: 1; min-height: 400px; position: relative; z-index: 5;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .hero-visual { flex: 1; min-height: 400px; position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; }
     .hero-image-card {
       width: 100%; max-width: 520px; border-radius: 40px; overflow: hidden;
       background: rgba(0, 0, 0, 0.2);
@@ -184,54 +149,31 @@
       position: relative; z-index: 5;
     }
     .hero-image-card:hover { transform: scale(1.01); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), var(--gold-glow); }
-    .hero-image-card img { width: 100%; height: auto; display: block; transition: transform 0.8s ease; }
-    .hero-image-card:hover img { transform: scale(1.03); }
-    .hero-image-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 60%, rgba(8, 19, 33, 0.6) 100%);
-      pointer-events: none;
-    }
+    .hero-image-card img { width: 100%; height: auto; display: block; }
+    .hero-image-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(8, 19, 33, 0.6) 100%); pointer-events: none; }
     .hero-image-badge {
       position: absolute; bottom: 1.5rem; left: 1.5rem;
-      background: rgba(8, 19, 33, 0.7);
-      backdrop-filter: blur(12px);
+      background: rgba(8, 19, 33, 0.7); backdrop-filter: blur(12px);
       padding: 0.5rem 1.2rem; border-radius: 40px;
       font-size: 0.7rem; letter-spacing: 0.15em; color: var(--color-accent);
       border: 1px solid rgba(212, 175, 55, 0.2);
       display: flex; align-items: center; gap: 0.5rem;
     }
 
-    /* ---------- ROTATING LOGO (Advanced, guaranteed visible) ---------- */
+    /* ROTATING LOGO */
     .hero-rotating-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 500px;
-      height: 500px;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.9;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 500px; height: 500px; pointer-events: none; z-index: 1; opacity: 0.9;
     }
-    .hero-rotating-logo .ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border-radius: 50%;
-      will-change: transform;
-    }
+    .hero-rotating-logo .ring { position: absolute; top: 50%; left: 50%; border-radius: 50%; will-change: transform; }
     .hero-rotating-logo .ring-1 {
-      width: 100%;
-      height: 100%;
-      margin: -50% 0 0 -50%;
+      width: 100%; height: 100%; margin: -50% 0 0 -50%;
       border: 2px dashed rgba(212, 175, 55, 0.55);
       box-shadow: 0 0 40px rgba(212, 175, 55, 0.25), inset 0 0 40px rgba(212, 175, 55, 0.1);
       animation: ringRotateCW 25s linear infinite;
     }
     .hero-rotating-logo .ring-2 {
-      width: 76%;
-      height: 76%;
-      margin: -38% 0 0 -38%;
+      width: 76%; height: 76%; margin: -38% 0 0 -38%;
       border: 2px solid rgba(212, 175, 55, 0.4);
       border-top-color: var(--color-accent-light);
       border-right-color: transparent;
@@ -240,145 +182,125 @@
       animation: ringRotateCCW 18s linear infinite;
     }
     .hero-rotating-logo .ring-3 {
-      width: 52%;
-      height: 52%;
-      margin: -26% 0 0 -26%;
+      width: 52%; height: 52%; margin: -26% 0 0 -26%;
       border: 2.5px dotted rgba(212, 175, 55, 0.7);
       animation: ringRotateCW 12s linear infinite;
     }
     .hero-rotating-logo .ring-4 {
-      width: 30%;
-      height: 30%;
-      margin: -15% 0 0 -15%;
+      width: 30%; height: 30%; margin: -15% 0 0 -15%;
       border: 1px solid rgba(249, 230, 179, 0.6);
       animation: ringPulse 3s ease-in-out infinite;
     }
     .hero-rotating-logo .core {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 140px;
-      height: 140px;
-      transform: translate(-50%, -50%);
+      position: absolute; top: 50%; left: 50%;
+      width: 140px; height: 140px; transform: translate(-50%, -50%);
       border-radius: 50%;
       background: radial-gradient(circle, rgba(212, 175, 55, 0.35), rgba(11, 22, 56, 0.2) 60%, transparent 75%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
     }
-    .hero-rotating-logo .core img {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      animation: coreSpin 14s linear infinite;
-      filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.9));
-    }
-    @keyframes ringRotateCW {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-    @keyframes ringRotateCCW {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
-    @keyframes ringPulse {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50%      { opacity: 1;   transform: scale(1.15); }
-    }
-    @keyframes coreSpin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
+    .hero-rotating-logo .core img { width: 90px; height: 90px; object-fit: contain; animation: coreSpin 14s linear infinite; filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.9)); }
+    @keyframes ringRotateCW { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes ringRotateCCW { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+    @keyframes ringPulse { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.15); } }
+    @keyframes coreSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-    /* ---------- MARQUEE (replaces SCROLL) ---------- */
+    /* MARQUEE */
     .marquee-strip {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-      padding: 1rem 0;
-      background: linear-gradient(90deg,
-        rgba(8, 19, 33, 0.95),
-        rgba(11, 22, 56, 0.7),
-        rgba(8, 19, 33, 0.95));
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      overflow: hidden; padding: 1rem 0;
+      background: linear-gradient(90deg, rgba(8, 19, 33, 0.95), rgba(11, 22, 56, 0.7), rgba(8, 19, 33, 0.95));
       border-top: 1px solid rgba(212, 175, 55, 0.2);
       border-bottom: 1px solid rgba(212, 175, 55, 0.2);
       mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
       z-index: 6;
     }
-    .marquee-track {
-      display: inline-flex;
-      gap: 3rem;
-      white-space: nowrap;
-      animation: marqueeScroll 22s linear infinite;
-      will-change: transform;
-    }
+    .marquee-track { display: inline-flex; gap: 3rem; white-space: nowrap; animation: marqueeScroll 22s linear infinite; will-change: transform; }
     .marquee-track span {
-      display: inline-block;
-      font-size: 1.1rem;
-      font-weight: 400;
-      letter-spacing: 0.4em;
-      padding-right: 3rem;
-      background: linear-gradient(90deg,
-        var(--color-accent),
-        var(--color-accent-light),
-        var(--color-accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      display: inline-block; font-size: 1.1rem; font-weight: 400; letter-spacing: 0.4em; padding-right: 3rem;
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light), var(--color-accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
       text-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
     }
-    @keyframes marqueeScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
+    @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* ---------- SECTIONS ---------- */
     section { padding: 5rem 6%; position: relative; }
 
-    /* ---------- FLAVOURS ---------- */
+    /* FLAVOURS */
     .flavour-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; margin-top: 2.5rem; }
     .flavour-card {
       padding: 2rem 1.8rem 2.2rem; border-radius: 32px;
       background: rgba(255, 255, 255, 0.02);
       backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
       border: 1px solid rgba(212, 175, 55, 0.08);
-      transition: all var(--transition-smooth);
-      text-align: center; position: relative; overflow: hidden;
+      transition: all var(--transition-smooth); text-align: center; position: relative; overflow: hidden;
     }
-    .flavour-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--color-accent);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), var(--gold-glow);
-    }
+    .flavour-card:hover { transform: translateY(-8px); border-color: var(--color-accent); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), var(--gold-glow); }
     .flavour-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; color: var(--color-accent); margin-bottom: 0.8rem; transition: transform var(--transition-smooth); }
     .flavour-card:hover .flavour-img { transform: scale(1.08) rotate(-4deg); }
     .flavour-card h3 { font-size: 1.3rem; font-weight: 400; margin-bottom: 0.3rem; }
     .flavour-card p { color: var(--color-text-muted); font-size: 0.9rem; font-weight: 300; }
     .flavour-card .btn-primary { margin-top: 1.2rem; padding: 0.5rem 1.8rem; font-size: 0.75rem; letter-spacing: 0.08em; }
 
-    /* ---------- STORY ---------- */
+    /* STORY with VIDEO */
     #story { background: var(--color-secondary); }
     .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; }
-    .story-image { border-radius: 40px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.1); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); transition: transform 0.6s ease; }
-    .story-image:hover { transform: scale(1.01); }
-    .story-image img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4/3; }
+    .story-image {
+      position: relative;
+      border-radius: 40px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+      background: #081321;
+      aspect-ratio: 4 / 3;
+    }
+    .story-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .video-toggle {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(8, 19, 33, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: var(--color-accent);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 3;
+    }
+    .video-toggle:hover {
+      background: var(--color-accent);
+      color: var(--color-primary);
+      transform: scale(1.08);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+    }
     .story-text h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; margin-bottom: 1.5rem; }
     .story-text p { color: var(--color-text-muted); font-weight: 300; margin-bottom: 1.2rem; line-height: 1.8; font-size: 1rem; }
     .story-stats { display: flex; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
     .story-stat h4 { font-size: 2rem; font-weight: 300; color: var(--color-accent); }
     .story-stat p { font-size: 0.8rem; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.4); margin-bottom: 0; }
 
-    /* ---------- GALLERY ---------- */
+    /* GALLERY */
     .gallery-masonry { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 14px; margin-top: 2rem; }
     .gallery-item {
       background: rgba(255, 255, 255, 0.02); border-radius: 24px;
       border: 1px solid rgba(212, 175, 55, 0.06);
-      transition: all var(--transition-smooth);
-      overflow: hidden;
+      transition: all var(--transition-smooth); overflow: hidden;
       backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
       position: relative; cursor: zoom-in;
     }
@@ -395,35 +317,24 @@
     .gallery-item:nth-child(1) { grid-row: span 2; }
     .gallery-item:nth-child(3) { grid-column: span 2; }
 
-    /* ---------- LIGHTBOX ---------- */
+    /* LIGHTBOX */
     .lightbox {
       position: fixed; inset: 0; background: rgba(4, 10, 20, 0.96);
       backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
       display: flex; align-items: center; justify-content: center;
       z-index: 9999; opacity: 0; visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0.4s ease;
-      padding: 2rem;
+      transition: opacity 0.4s ease, visibility 0.4s ease; padding: 2rem;
     }
     .lightbox.open { opacity: 1; visibility: visible; }
     .lightbox-content {
       position: relative; max-width: 90vw; max-height: 85vh;
       border-radius: 20px; overflow: hidden;
       border: 1px solid rgba(212, 175, 55, 0.3);
-      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.85),
-                  0 0 80px rgba(212, 175, 55, 0.25);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.85), 0 0 80px rgba(212, 175, 55, 0.25);
       animation: lightboxZoomIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    @keyframes lightboxZoomIn {
-      from { transform: scale(0.92); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-    .lightbox-content img {
-      display: block;
-      max-width: 90vw;
-      max-height: 85vh;
-      width: auto; height: auto;
-      object-fit: contain;
-    }
+    @keyframes lightboxZoomIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .lightbox-content img { display: block; max-width: 90vw; max-height: 85vh; width: auto; height: auto; object-fit: contain; }
     .lightbox-close {
       position: absolute; top: 1.5rem; right: 1.5rem;
       width: 48px; height: 48px; border-radius: 50%;
@@ -433,11 +344,7 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; z-index: 10; transition: all 0.3s ease;
     }
-    .lightbox-close:hover {
-      background: var(--color-accent); color: var(--color-primary);
-      transform: rotate(90deg) scale(1.1);
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
-    }
+    .lightbox-close:hover { background: var(--color-accent); color: var(--color-primary); transform: rotate(90deg) scale(1.1); box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
     .lightbox-nav {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 54px; height: 54px; border-radius: 50%;
@@ -447,22 +354,17 @@
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: all 0.3s ease; z-index: 10;
     }
-    .lightbox-nav:hover {
-      background: var(--color-accent); color: var(--color-primary);
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.6);
-    }
+    .lightbox-nav:hover { background: var(--color-accent); color: var(--color-primary); box-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
     .lightbox-prev { left: 1.5rem; }
     .lightbox-next { right: 1.5rem; }
     .lightbox-counter {
-      position: absolute; bottom: 1rem; left: 50%;
-      transform: translateX(-50%);
-      background: rgba(8, 19, 33, 0.8);
-      padding: 0.4rem 1.2rem; border-radius: 40px;
+      position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+      background: rgba(8, 19, 33, 0.8); padding: 0.4rem 1.2rem; border-radius: 40px;
       border: 1px solid rgba(212, 175, 55, 0.3);
       font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-accent);
     }
 
-    /* ---------- CONTACT ---------- */
+    /* CONTACT */
     #contact { background: var(--color-secondary); position: relative; }
     .contact-form-wrap {
       max-width: 600px; margin: 2rem auto 0;
@@ -474,13 +376,11 @@
     }
     .contact-form-wrap input,
     .contact-form-wrap textarea {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
+      width: 100%; background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(212, 175, 55, 0.12);
       padding: 0.9rem 1.2rem; border-radius: 40px;
       color: var(--color-white); font-family: var(--font-primary);
-      font-size: 0.95rem; transition: all var(--transition-smooth);
-      margin-bottom: 1rem;
+      font-size: 0.95rem; transition: all var(--transition-smooth); margin-bottom: 1rem;
     }
     .contact-form-wrap input:focus,
     .contact-form-wrap textarea:focus {
@@ -488,13 +388,11 @@
       box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
     }
     .contact-form-wrap input::placeholder,
-    .contact-form-wrap textarea::placeholder {
-      color: rgba(255, 255, 255, 0.25); font-weight: 300;
-    }
+    .contact-form-wrap textarea::placeholder { color: rgba(255, 255, 255, 0.25); font-weight: 300; }
     .contact-form-wrap textarea { border-radius: 24px; min-height: 100px; resize: vertical; }
     .contact-form-wrap .btn-primary { width: 100%; padding: 0.9rem; }
 
-    /* ---------- FOOTER ---------- */
+    /* FOOTER */
     footer {
       background: #050f1a; padding: 3.5rem 6% 2.5rem;
       border-top: 1px solid rgba(212, 175, 55, 0.06);
@@ -518,18 +416,15 @@
       border: 1px solid rgba(212, 175, 55, 0.1);
       padding: 0.6rem 1rem; border-radius: 40px; width: 100%;
       color: var(--color-white); font-family: var(--font-primary);
-      font-size: 0.85rem; transition: border var(--transition-smooth);
+      font-size: 0.85rem;
     }
-    .newsletter-input:focus { border-color: var(--color-accent); outline: none; }
-    .newsletter-input::placeholder { color: rgba(255, 255, 255, 0.2); }
     .btn-subscribe {
       margin-top: 0.6rem; background: var(--color-accent); color: var(--color-primary);
       border: none; padding: 0.4rem 1.6rem; border-radius: 40px;
-      font-size: 0.8rem; font-weight: 500; transition: all var(--transition-smooth);
+      font-size: 0.8rem; font-weight: 500;
     }
-    .btn-subscribe:hover { background: #e0c04a; transform: scale(1.02); }
 
-    /* ---------- PARTICLES ---------- */
+    /* PARTICLES */
     .particle-gold {
       position: fixed; pointer-events: none; border-radius: 50%;
       background: var(--color-accent); opacity: 0.15;
@@ -537,11 +432,11 @@
       animation: floatParticle 8s infinite alternate ease-in-out;
     }
     @keyframes floatParticle {
-      0%   { transform: translate(0, 0) scale(1); opacity: 0.1; }
+      0% { transform: translate(0, 0) scale(1); opacity: 0.1; }
       100% { transform: translate(var(--tx, 30px), var(--ty, -40px)) scale(1.8); opacity: 0.4; }
     }
 
-    /* ---------- TOAST ---------- */
+    /* TOAST */
     .luxury-toast {
       position: fixed; bottom: 2rem; left: 50%;
       transform: translateX(-50%) translateY(20px);
@@ -558,7 +453,7 @@
     }
     .luxury-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ---------- RESPONSIVE ---------- */
+    /* RESPONSIVE */
     @media (max-width: 1024px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
@@ -615,7 +510,6 @@
       }
       .particle-gold { display: none; }
     }
-
     a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
       outline: 2px solid var(--color-accent); outline-offset: 2px;
     }
@@ -663,7 +557,6 @@
       </div>
     </div>
     <div class="hero-visual">
-      <!-- Rotating logo (behind card) -->
       <div class="hero-rotating-logo" aria-hidden="true">
         <div class="ring ring-1"></div>
         <div class="ring ring-2"></div>
@@ -673,15 +566,12 @@
           <img src="assets/images/logo.png" alt="" />
         </div>
       </div>
-
       <div class="hero-image-card">
         <img src="assets/images/gallery-1.jpg" alt="AQUORA SHAKE premium product" />
         <div class="hero-image-overlay"></div>
         <div class="hero-image-badge"><i class="fas fa-crown"></i> Signature Edition</div>
       </div>
     </div>
-
-    <!-- Marquee text -->
     <div class="marquee-strip" aria-hidden="true">
       <div class="marquee-track">
         <span>AQUORA SHAKE · CROWN YOUR MOMENT ·</span>
@@ -720,11 +610,26 @@
     </div>
   </section>
 
-  <!-- STORY -->
+  <!-- STORY with VIDEO -->
   <section id="story">
     <div class="story-grid">
       <div class="story-image">
-        <img src="assets/images/gallery-2.jpg" alt="AQUORA SHAKE story" />
+        <video
+          id="storyVideo"
+          class="story-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="assets/images/gallery-2.jpg"
+        >
+          <source src="assets/videos/story.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <button class="video-toggle" id="videoToggle" aria-label="Toggle video">
+          <i class="fas fa-pause"></i>
+        </button>
       </div>
       <div class="story-text">
         <h2>Born from <span class="gold-text">Pure Craft</span></h2>
@@ -746,35 +651,17 @@
       <p class="section-sub">Click any image to view full size</p>
     </div>
     <div class="gallery-masonry" id="galleryGrid">
-      <div class="gallery-item">
-        <img src="assets/images/gallery-1.jpg" alt="Gallery 1" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/images/gallery-2.jpg" alt="Gallery 2" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/images/gallery-3.jpg" alt="Gallery 3" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/images/gallery-4.jpg" alt="Gallery 4" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/images/gallery-5.jpg" alt="Gallery 5" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
-      <div class="gallery-item">
-        <img src="assets/images/gallery-6.jpg" alt="Gallery 6" />
-        <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
-      </div>
+      <div class="gallery-item"><img src="assets/images/gallery-1.jpg" alt="Gallery 1" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item"><img src="assets/images/gallery-2.jpg" alt="Gallery 2" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item"><img src="assets/images/gallery-3.jpg" alt="Gallery 3" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item"><img src="assets/images/gallery-4.jpg" alt="Gallery 4" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item"><img src="assets/images/gallery-5.jpg" alt="Gallery 5" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
+      <div class="gallery-item"><img src="assets/images/gallery-6.jpg" alt="Gallery 6" /><div class="gallery-overlay"><i class="fas fa-expand"></i></div></div>
     </div>
   </section>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
+  <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Close"><i class="fas fa-times"></i></button>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
     <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
@@ -784,7 +671,7 @@
     </div>
   </div>
 
-  <!-- CONTACT (Formspree) -->
+  <!-- CONTACT -->
   <section id="contact">
     <div class="text-center">
       <h2 class="section-title">Reserve <span class="gold-text">Your Taste</span></h2>
@@ -829,10 +716,6 @@
   </footer>
 
   <script>
-    /* ============================================
-       AQUORA SHAKE · Complete JS
-       ============================================ */
-
     // 1. LOADER
     (function () {
       let progress = 0;
@@ -854,7 +737,7 @@
       }, 180);
     })();
 
-    // 2. NAVIGATION
+    // 2. NAV
     (function () {
       const hamburger = document.getElementById('hamburger');
       const mobileMenu = document.getElementById('mobileMenu');
@@ -900,9 +783,8 @@
       });
     })();
 
-    // 4. FLOATING PARTICLES
+    // 4. PARTICLES
     function initParticles() {
-      const container = document.body;
       for (let i = 0; i < 25; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle-gold';
@@ -919,7 +801,7 @@
           opacity: ${0.1 + Math.random() * 0.25};
           filter: blur(${1 + Math.random() * 2}px);
         `;
-        container.appendChild(particle);
+        document.body.appendChild(particle);
       }
     }
 
@@ -935,7 +817,7 @@
       showNotification('Discovering: ' + name);
     };
 
-    // 6. NOTIFICATION TOAST
+    // 6. TOAST
     function showNotification(message) {
       document.querySelectorAll('.luxury-toast').forEach(t => t.remove());
       const toast = document.createElement('div');
@@ -950,7 +832,7 @@
     }
 
     // 7. LIGHTBOX
-    (function initLightbox() {
+    (function () {
       const lightbox = document.getElementById('lightbox');
       const lightboxImage = document.getElementById('lightboxImage');
       const lightboxIndex = document.getElementById('lightboxIndex');
@@ -959,72 +841,70 @@
       const prevBtn = document.getElementById('lightboxPrev');
       const nextBtn = document.getElementById('lightboxNext');
       const galleryItems = Array.from(document.querySelectorAll('#galleryGrid .gallery-item'));
-
       if (!lightbox || !lightboxImage || galleryItems.length === 0) return;
+
+      const sources = galleryItems.map(item => item.querySelector('img')?.getAttribute('src') || '');
+      const alts = galleryItems.map(item => item.querySelector('img')?.getAttribute('alt') || 'Gallery image');
+      if (lightboxTotal) lightboxTotal.textContent = sources.length;
 
       let currentIndex = 0;
 
-      // Build image source list from the actual <img src> in each gallery tile
-      const imageSources = galleryItems.map(item =>
-        item.querySelector('img')?.getAttribute('src') || ''
-      );
-      const imageAlts = galleryItems.map(item =>
-        item.querySelector('img')?.getAttribute('alt') || 'Gallery image'
-      );
-
-      if (lightboxTotal) lightboxTotal.textContent = imageSources.length;
-
       function openLightbox(index) {
-        currentIndex = ((index % imageSources.length) + imageSources.length) % imageSources.length;
-        lightboxImage.src = imageSources[currentIndex];
-        lightboxImage.alt = imageAlts[currentIndex];
+        currentIndex = ((index % sources.length) + sources.length) % sources.length;
+        lightboxImage.src = sources[currentIndex];
+        lightboxImage.alt = alts[currentIndex];
         if (lightboxIndex) lightboxIndex.textContent = currentIndex + 1;
         lightbox.classList.add('open');
-        lightbox.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       }
 
       function closeLightbox() {
         lightbox.classList.remove('open');
-        lightbox.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       }
-
-      function showNext() { openLightbox(currentIndex + 1); }
-      function showPrev() { openLightbox(currentIndex - 1); }
 
       galleryItems.forEach((item, i) => {
         item.addEventListener('click', () => openLightbox(i));
       });
-
       if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-      if (nextBtn) nextBtn.addEventListener('click', showNext);
-      if (prevBtn) prevBtn.addEventListener('click', showPrev);
-
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
+      if (nextBtn) nextBtn.addEventListener('click', () => openLightbox(currentIndex + 1));
+      if (prevBtn) prevBtn.addEventListener('click', () => openLightbox(currentIndex - 1));
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
 
       document.addEventListener('keydown', (e) => {
         if (!lightbox.classList.contains('open')) return;
         if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') showNext();
-        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'ArrowRight') openLightbox(currentIndex + 1);
+        if (e.key === 'ArrowLeft') openLightbox(currentIndex - 1);
       });
-
-      // Touch swipe
-      let touchX = 0;
-      lightbox.addEventListener('touchstart', (e) => {
-        touchX = e.changedTouches[0].screenX;
-      }, { passive: true });
-      lightbox.addEventListener('touchend', (e) => {
-        const delta = e.changedTouches[0].screenX - touchX;
-        if (Math.abs(delta) > 50) delta < 0 ? showNext() : showPrev();
-      }, { passive: true });
     })();
 
-    // 8. CONTACT FORM (Formspree)
-    (function initContactForm() {
+    // 8. STORY VIDEO TOGGLE
+    (function () {
+      const video = document.getElementById('storyVideo');
+      const toggle = document.getElementById('videoToggle');
+      if (!video || !toggle) return;
+      const icon = toggle.querySelector('i');
+
+      // Ensure autoplay works (some browsers need an explicit play call)
+      video.play().catch(() => {
+        // Autoplay was blocked — show play icon
+        if (icon) icon.className = 'fas fa-play';
+      });
+
+      toggle.addEventListener('click', () => {
+        if (video.paused) {
+          video.play();
+          if (icon) icon.className = 'fas fa-pause';
+        } else {
+          video.pause();
+          if (icon) icon.className = 'fas fa-play';
+        }
+      });
+    })();
+
+    // 9. FORMSPREE FORM
+    (function () {
       const form = document.getElementById('contactForm');
       if (!form) return;
       form.addEventListener('submit', async function (e) {
@@ -1033,20 +913,17 @@
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending...';
-        const formData = new FormData(form);
         try {
           const response = await fetch(form.action, {
             method: 'POST',
-            body: formData,
+            body: new FormData(form),
             headers: { Accept: 'application/json' },
           });
           if (response.ok) {
             showNotification('Thank you! Your message has been sent.');
             form.reset();
           } else {
-            const data = await response.json();
-            const err = data?.errors?.map(x => x.message).join(', ') || 'Something went wrong.';
-            showNotification(err);
+            showNotification('Oops! Something went wrong.');
           }
         } catch (error) {
           showNotification('Network error. Please try again.');
@@ -1057,7 +934,7 @@
       });
     })();
 
-    // 9. KEYBOARD ACCESSIBILITY (mobile menu)
+    // 10. ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         const menu = document.getElementById('mobileMenu');
@@ -1069,13 +946,6 @@
         }
       }
     });
-
-    // 10. EXPOSE API
-    window.__aquora = {
-      version: '3.0.0',
-      showNotification,
-      switchFlavour: window.switchFlavour,
-    };
 
     console.log('AQUORA SHAKE · Luxury experience loaded');
   </script>
