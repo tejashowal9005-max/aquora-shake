@@ -263,32 +263,6 @@
       object-fit: cover;
       display: block;
     }
-    .video-toggle {
-      position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(8, 19, 33, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      color: var(--color-accent);
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 3;
-    }
-    .video-toggle:hover {
-      background: var(--color-accent);
-      color: var(--color-primary);
-      transform: scale(1.08);
-      box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
-    }
     .story-text h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; margin-bottom: 1.5rem; }
     .story-text p { color: var(--color-text-muted); font-weight: 300; margin-bottom: 1.2rem; line-height: 1.8; font-size: 1rem; }
     .story-stats { display: flex; gap: 3rem; margin-top: 2.5rem; flex-wrap: wrap; }
@@ -610,26 +584,22 @@
     </div>
   </section>
 
-  <!-- STORY with VIDEO -->
+  <!-- STORY with VIDEO (autoplay + loop, no button) -->
   <section id="story">
     <div class="story-grid">
       <div class="story-image">
         <video
-          id="storyVideo"
           class="story-video"
           autoplay
           muted
           loop
           playsinline
-          preload="metadata"
+          preload="auto"
           poster="assets/images/gallery-2.jpg"
         >
           <source src="assets/videos/story.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <button class="video-toggle" id="videoToggle" aria-label="Toggle video">
-          <i class="fas fa-pause"></i>
-        </button>
       </div>
       <div class="story-text">
         <h2>Born from <span class="gold-text">Pure Craft</span></h2>
@@ -879,28 +849,17 @@
       });
     })();
 
-    // 8. STORY VIDEO TOGGLE
+    // 8. STORY VIDEO — ensure autoplay works reliably
     (function () {
-      const video = document.getElementById('storyVideo');
-      const toggle = document.getElementById('videoToggle');
-      if (!video || !toggle) return;
-      const icon = toggle.querySelector('i');
-
-      // Ensure autoplay works (some browsers need an explicit play call)
-      video.play().catch(() => {
-        // Autoplay was blocked — show play icon
-        if (icon) icon.className = 'fas fa-play';
-      });
-
-      toggle.addEventListener('click', () => {
-        if (video.paused) {
-          video.play();
-          if (icon) icon.className = 'fas fa-pause';
-        } else {
-          video.pause();
-          if (icon) icon.className = 'fas fa-play';
-        }
-      });
+      const video = document.querySelector('.story-video');
+      if (!video) return;
+      // Some browsers need an explicit play() call after metadata loads
+      const tryPlay = () => {
+        video.play().catch(() => { /* ignored — muted autoplay should always work */ });
+      };
+      video.addEventListener('loadedmetadata', tryPlay);
+      video.addEventListener('canplay', tryPlay);
+      tryPlay();
     })();
 
     // 9. FORMSPREE FORM
@@ -950,7 +909,6 @@
     console.log('AQUORA SHAKE · Luxury experience loaded');
   </script>
 
-  <!-- GSAP (optional) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </body>
