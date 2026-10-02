@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
-  <title>AQUORA SHAKE • Crown Your Moment</title>
+  <title>AQUORA SHAKE · Crown Your Moment</title>
   <!-- fonts & icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -131,6 +131,11 @@
       transform: scale(1.03);
       box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
       background: #e0c04a;
+    }
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
     }
     .btn-outline {
       display: inline-flex;
@@ -456,7 +461,6 @@
     .hero-image-badge i {
       font-size: 0.8rem;
     }
-
     .scroll-indicator {
       position: absolute;
       bottom: 2rem;
@@ -998,7 +1002,6 @@
   <!-- NAV -->
   <nav id="navbar">
     <div class="logo-area">
-      <!-- Logo image from folder -->
       <img src="assets/images/logo.png" alt="AQUORA SHAKE Logo" class="logo-img" />
       <span class="logo-text">AQUORA</span>
     </div>
@@ -1082,11 +1085,11 @@
             <p>Natural Ingredients</p>
           </div>
           <div class="story-stat">
-            <h4>0</h4>
+            <h4>24</h4>
             <p>Global Awards</p>
           </div>
           <div class="story-stat">
-            <h4></h4>
+            <h4>50k+</h4>
             <p>Happy Customers</p>
           </div>
         </div>
@@ -1128,18 +1131,23 @@
     </div>
   </section>
 
-  <!-- CONTACT / FOOTER -->
+  <!-- CONTACT (Formspree Email Form) -->
   <section id="contact">
     <div class="text-center">
       <h2 class="section-title">Reserve <span class="gold-text">Your Taste</span></h2>
       <p class="section-sub">Let's craft something extraordinary</p>
     </div>
-    <div class="contact-form-wrap">
-      <input type="text" placeholder="Name" />
-      <input type="email" placeholder="Email" />
-      <textarea placeholder="Your message"></textarea>
-      <button class="btn-primary" onclick="showNotification('Thank you! We\'ll be in touch.')">Send</button>
-    </div>
+    <form
+      class="contact-form-wrap"
+      id="contactForm"
+      action="https://formspree.io/f/mzezlyqq"
+      method="POST"
+    >
+      <input type="text" name="name" placeholder="Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <textarea name="message" placeholder="Your message" required></textarea>
+      <button type="submit" class="btn-primary">Send</button>
+    </form>
   </section>
 
   <footer>
@@ -1228,9 +1236,11 @@
       });
 
       const nav = document.querySelector('nav');
-      window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 50);
-      });
+      if (nav) {
+        window.addEventListener('scroll', () => {
+          nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+      }
     })();
 
     // --------------------------------------------
@@ -1256,12 +1266,14 @@
     })();
 
     // --------------------------------------------
-    // 4. GSAP ANIMATIONS (via CDN)
+    // 4. GSAP ANIMATIONS
     // --------------------------------------------
     function initAnimations() {
       if (typeof gsap === 'undefined') {
-        // Fallback: simple CSS transitions for reveal
-        document.querySelectorAll('.flavour-card, .gallery-item, .story-text, .contact-form-wrap, .footer-col').forEach((el, i) => {
+        const revealEls = document.querySelectorAll(
+          '.flavour-card, .gallery-item, .story-text, .story-image, .contact-form-wrap, .footer-col, .section-title, .section-sub'
+        );
+        revealEls.forEach((el, i) => {
           el.style.opacity = '0';
           el.style.transform = 'translateY(30px)';
           el.style.transition = `opacity 0.8s ease ${i * 0.06}s, transform 0.8s ease ${i * 0.06}s`;
@@ -1456,7 +1468,51 @@
     }
 
     // --------------------------------------------
-    // 8. KEYBOARD ACCESSIBILITY
+    // 8. CONTACT FORM SUBMISSION (Formspree)
+    // --------------------------------------------
+    (function initContactForm() {
+      const form = document.getElementById('contactForm');
+      if (!form) return;
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { Accept: 'application/json' },
+          });
+
+          if (response.ok) {
+            showNotification('Thank you! Your message has been sent.');
+            form.reset();
+          } else {
+            const data = await response.json();
+            const errorMsg =
+              data?.errors?.map((err) => err.message).join(', ') ||
+              'Oops! Something went wrong. Please try again.';
+            showNotification(errorMsg);
+          }
+        } catch (error) {
+          showNotification('Network error. Please check your connection.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+      });
+    })();
+
+    // --------------------------------------------
+    // 9. KEYBOARD ACCESSIBILITY
     // --------------------------------------------
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -1478,7 +1534,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('AQUORA SHAKE • Luxury experience loaded');
+      console.log('AQUORA SHAKE · Luxury experience loaded');
     });
   </script>
 
