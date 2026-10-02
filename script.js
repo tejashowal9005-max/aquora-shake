@@ -2,6 +2,7 @@
    AQUORA SHAKE · script.js
    Premium interactions · GSAP animations
    Smooth scroll · Floating particles
+   Formspree email form
    ============================================ */
 
 // --------------------------------------------
@@ -299,7 +300,55 @@ function showNotification(message) {
 }
 
 // --------------------------------------------
-// 8. INTERSECTION OBSERVER (fallback)
+// 8. CONTACT FORM SUBMISSION (Formspree)
+// --------------------------------------------
+(function initContactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+
+    // Disable button + show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        showNotification('Thank you! Your message has been sent.');
+        form.reset();
+      } else {
+        const data = await response.json();
+        const errorMsg =
+          data?.errors?.map((err) => err.message).join(', ') ||
+          'Oops! Something went wrong. Please try again.';
+        showNotification(errorMsg);
+      }
+    } catch (error) {
+      showNotification('Network error. Please check your connection.');
+    } finally {
+      // Restore button
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
+})();
+
+// --------------------------------------------
+// 9. INTERSECTION OBSERVER (fallback)
 // --------------------------------------------
 (function initIntersectionObserver() {
   if (typeof ScrollTrigger !== 'undefined') return;
@@ -339,7 +388,7 @@ function showNotification(message) {
 })();
 
 // --------------------------------------------
-// 9. KEYBOARD ACCESSIBILITY
+// 10. KEYBOARD ACCESSIBILITY
 // --------------------------------------------
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -354,10 +403,10 @@ document.addEventListener('keydown', (e) => {
 });
 
 // --------------------------------------------
-// 10. EXPOSE API
+// 11. EXPOSE API
 // --------------------------------------------
 window.__aquora = {
-  version: '2.0.0',
+  version: '2.1.0',
   showNotification,
   switchFlavour: window.switchFlavour,
 };
